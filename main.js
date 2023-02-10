@@ -1,15 +1,13 @@
-const { Builder, By, Key, until } = require('selenium-webdriver');
+const { Builder, By, Key, until, WebDriver } = require('selenium-webdriver');
 
 (async function example() {
   let driver = await new Builder().forBrowser('chrome').build();
   try {
-    await driver.get('https://accounts.google.com/signup');
-    await driver.findElement(By.name('firstName')).sendKeys('Your First Name');
-    await driver.findElement(By.name('lastName')).sendKeys('Your Last Name');
-    await driver.findElement(By.name('Username')).sendKeys('yourusername');
-    await driver.findElement(By.name('Passwd')).sendKeys('yourpassword');
-    await driver.findElement(By.name('ConfirmPasswd')).sendKeys('yourpassword', Key.RETURN);
-    await driver.wait(until.titleIs('Google Account'), 1000);
+    await driver.get('https://www.google.com/');
+    await driver.findElement(By.name('q')).sendKeys('Node.js', Key.RETURN);
+    await driver.wait(until.titleContains('Node.js'), 1000);
+    console.log(await driver.getTitle());
+    await WebDriver.promise.delayed(10000);
   } finally {
     await driver.quit();
   }
